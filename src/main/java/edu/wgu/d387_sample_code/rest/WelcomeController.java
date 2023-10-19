@@ -12,10 +12,11 @@ import java.util.ResourceBundle;
 public class WelcomeController {
 
     @GetMapping("/welcome")
-    public String getWelcomeMessage() {
+    public String[] getWelcomeMessage() {
 
         Locale enLocale = Locale.CANADA;
         Locale frLocale = Locale.CANADA_FRENCH;
+        String[] welcomeMessages = new String[2];
 
         WelcomeRunnable runnable1 = new WelcomeRunnable(enLocale);
         WelcomeRunnable runnable2 = new WelcomeRunnable(frLocale);
@@ -29,7 +30,9 @@ public class WelcomeController {
         while(thread1.isAlive() || thread2.isAlive()) {
             // wait for both threads to complete
         }
-        return thread1.getName() + ": " + runnable1.getWelcomeMessage() + " " + thread2.getName() + ": " + runnable2.getWelcomeMessage();
+        welcomeMessages[0] = thread1.getName() + ": " + runnable1.getWelcomeMessage();
+        welcomeMessages[1] = thread2.getName() + ": " + runnable2.getWelcomeMessage();
+        return welcomeMessages;
     }
 
     public static class WelcomeRunnable implements Runnable {
