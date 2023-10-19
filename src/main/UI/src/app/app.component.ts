@@ -19,6 +19,7 @@ export class AppComponent implements OnInit{
   private baseURL:string='http://localhost:8080';
 
   private welcomeUrl : string = this.baseURL + '/welcome'
+  private presentationUrl:string = this.baseURL + '/presentation'
   private getUrl:string = this.baseURL + '/room/reservation/v1/';
   private postUrl:string = this.baseURL + '/room/reservation/v1';
   public submitted!:boolean;
@@ -28,10 +29,12 @@ export class AppComponent implements OnInit{
   currentCheckInVal!:string;
   currentCheckOutVal!:string;
   welcomeMessages!:string[];
+  presentationTime!: string[];
 
     ngOnInit(){
 
       this.getWelcomeMessage().subscribe(array => this.welcomeMessages = array);
+      this.getPresentationTime().subscribe(array => this.presentationTime = array)
 
       this.roomsearch= new FormGroup({
         checkin: new FormControl(' '),
@@ -52,6 +55,10 @@ export class AppComponent implements OnInit{
 
   getWelcomeMessage(): Observable<any> {
     return this.httpClient.get(this.welcomeUrl, {responseType: 'json'});
+  }
+
+  getPresentationTime():Observable<any> {
+      return this.httpClient.get(this.presentationUrl, {responseType: 'json'})
   }
 
     onSubmit({value,valid}:{value:Roomsearch,valid:boolean}){
